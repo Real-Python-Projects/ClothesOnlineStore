@@ -26,7 +26,7 @@
                             <!-- Start Single Content -->
                             {% include 'partials/messages.html' %}
                             <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
-                                <form action="{% url 'accounts:request-reset-email' %}" class="login" method="POST">{% csrf_token %}
+                                <form action="{% url 'user:request-reset-email' %}" class="login" method="POST">{% csrf_token %}
                                     <input name='email' type="email" placeholder="Enter your email*">
                                     <div class="htc__login__btn mt--30">
                                         <button type="submit">Submit</button>

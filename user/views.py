@@ -44,7 +44,7 @@ def LogInView(request, *args, **kwargs):
         if user is not None:
             login(request, user)
             messages.info(request, "You have successfully logged in")
-            return redirect('retechecommerce:index')
+            return redirect('store:index')
         else:
             messages.error(request,"Ivalid Login")
             return render(request,'auth/login.html')
@@ -53,7 +53,7 @@ def LogInView(request, *args, **kwargs):
 def LogOutView(request, *args, **kwargs):
     logout(request)
     messages.success(request,"You have successfully Logged Out")
-    return redirect('retechecommerce:index')
+    return redirect('store:index')
 
 def RegisterView(request):
     
@@ -72,19 +72,19 @@ def RegisterView(request):
                 messages.error(request, "Password is required")
             if password2 == "":
                 messages.error(request, "Repeat Password is required")
-                return redirect('accounts:register')
+                return redirect('user:register')
             
             if User.objects.filter(username=username).exists():
                 messages.error(request, "A user with the username exists")
             if User.objects.filter(email=email).exists():
                 messages.error(request, "The Email has already been taken")
-                return redirect('accounts:register') 
+                return redirect('user:register') 
             
             if password1 != password2:
                 messages.error(request, "Passwords do not match")
             if len(password1)<6:
                 messages.error(request,"Password is too short")
-                return redirect('accounts:register') 
+                return redirect('user:register') 
               
                     
 
@@ -97,7 +97,7 @@ def RegisterView(request):
                 
                 uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
                 domain = get_current_site(request).domain #gives us the domain
-                link = reverse('accounts:activate', 
+                link = reverse('user:activate', 
                                 kwargs={
                                     'uidb64':uidb64, 
                                     'token':token_gen.make_token(user)
@@ -118,7 +118,7 @@ def RegisterView(request):
                 mail_body = f"hi {user.username} click the link below to verify your account\n {activate_url}"
                 mail = send_mail (mail_subject, mail_body,'noreply@retech.com',[email], fail_silently=False)
                 messages.success(request, "User has been created")
-                return redirect('accounts:login')
+                return redirect('user:login')
             
     return render(request, 'auth/register.html', {})
 
@@ -132,7 +132,7 @@ def VerificationView(request,uidb64, token):
         user.is_active=True
         user.save()
         messages.info(request, "account verified")  
-        return redirect("accounts:login")
+        return redirect("user:login")
     return render(request,'auth/activation_failed.html')
 
 
@@ -148,7 +148,7 @@ def RequestResetEmail(request):
             if user.exists():
                 uidb64 = urlsafe_base64_encode(force_bytes(user[0].pk))
                 domain = get_current_site(request).domain #gives us the domain
-                link = reverse('accounts:reset-password', 
+                link = reverse('user:reset-password', 
                                 kwargs={
                                     'uidb64':uidb64, 
                                     'token':PasswordResetTokenGenerator().make_token(user[0])
@@ -167,10 +167,10 @@ def RequestResetEmail(request):
                 mail_body = f"hi {user[0].username} click the link below to reset your password\n {reset_password_url}"
                 mail = send_mail (mail_subject, mail_body,'noreply@retech.com',[email], fail_silently=False)
                 messages.success(request, "Check your Email for the reset link")
-                return redirect('accounts:login')
+                return redirect('user:login')
             else:
                 messages.error(request, "Sorry, there is no user with that email")
-                return redirect('accounts:request-reset-email')
+                return redirect('user:request-reset-email')
 
     return render(request, 'auth/reset_email_form.html', {})
   
@@ -189,7 +189,7 @@ def ResetPasswordView(request, uidb64, token):
             
         
         messages.success(request, "password changed successfully")
-        return redirect('accounts:login')
+        return redirect('user:login')
     except DjangoUnicodeDecodeError as identifier:
         messages.error(request, "oops! something went wrong")
         return render(request, 'auth/reset_password.html', context)
@@ -226,7 +226,7 @@ def ResetPasswordView(request, uidb64, token):
             user.set_password(password1)
             user.save()
             messages.success(request, "password changed successfully")
-            return redirect('accounts:login')
+            return redirect('user:login')
         except DjangoUnicodeDecodeError as identifier:
             messages.error(request, "oops! something went wrong")
             return render(request, 'auth/reset_password.html', context)

@@ -3,65 +3,58 @@
 
 
 {% block title %}
-    Login
+    Register
 {% endblock title %}
     
 
 {% block body %}
-    
-        <!-- Start Login Register Area -->
-        <div class="htc__login__register bg__white ptb--130" style="background: rgba(0, 0, 0, 0) url('{% static 'images/bg/5.jpg' %}') no-repeat scroll center center / cover ;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
-                        <ul class="login__register__menu" role="tablist">
-                            <li role="presentation" class="register"><a href="" role="tab" data-toggle="tab">Register</a></li>
-                        </ul>
+<div class="auth-form">
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+              <div class="card-body">
+                <h5 class="card-title text-center">Register</h5>
+                {% include 'partials/messages.html' %}
+                <form class="form-signin" method="post" action="{% url 'user:register' %}">
+                    {% csrf_token %}
+                    <div class="form-label-group">
+                        <input type="text" id="inputUser" name="username" class="form-control" placeholder="Username" required autofocus>
+                        <label for="inputUser">Username</label>
                     </div>
-                </div>
-                <!-- Start Login Register Content -->
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 ">
-                        <div class="htc__login__register__wrap">
-                            {% include 'partials/messages.html' %}
-                            <!-- Start Single Content -->
-                            <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
-                                <form action="" class="login" method="POST">{% csrf_token %}
-                                    <input name='username' type="text" placeholder="User Name*">
-                                    <input name="email" type="email" placeholder="Email*">
-                                    <input name="password1" type="password" placeholder="Password*">
-                                    <input name="password2" type="password" placeholder="Repeat Password*">
-                                    <div id="tabs__checkbox">
-                                        <!-- <input type="checkbox"><span> Remember me</span> -->
-                                    </div>
-                                    <div class="htc__login__btn mt--30">
-                                        <button type="submit">Register</button>
-                                    </div>
-                                </form>
 
-
-                                <div class="htc__social__connect">
-                                    <h2>Or Login With</h2>
-                                    <ul class="htc__soaial__list">
-                                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-
-                                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
-
-                                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-
-                                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- End Single Content -->
-                           
-                        </div>
+                    <div class="form-label-group">
+                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+                        <label for="inputEmail">Email address</label>
                     </div>
-                </div>
-                <!-- End Login Register Content -->
+        
+                    <div class="form-label-group">
+                        <input type="password" id="inputPassword" name="password1" class="form-control" placeholder="Password" required>
+                        <label for="inputPassword">Password</label>
+                    </div>
+
+                    <div class="form-label-group">
+                        <input type="password" id="inputPassword2" name="password2" class="form-control" placeholder="Password" required>
+                        <label for="inputPassword2">Repeat Password</label>
+                    </div>
+
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
+                    <hr class="my-4">
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">Login instead</label>
+                    </div>
+
+                        
+                    <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
+                    <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-        <!-- End Login Register Area -->
-       
+      </div>
+</div>
 {% endblock body %}
     
