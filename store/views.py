@@ -60,6 +60,7 @@ def ContactView(request, *args, **kwargs):
         email = request.POST['email']
         subject = request.POST['subject']
         message = request.POST['message']
+        phone  = request.POST['phone']
         form = ContactForm(request.POST)
         if form.is_valid():
             send_mail(subject, message, email, ['retechempire@gmail.com'], fail_silently=True)
