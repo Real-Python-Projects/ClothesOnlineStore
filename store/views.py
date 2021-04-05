@@ -1,21 +1,25 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.http import JsonResponse
 from django.utils import timezone
 from .models import  (Manufacture, Item, 
                       OrderItem, Order, 
                       WishListItem, UserWishList,
                       BillingAddress, Payment, Coupon, Category
                       )
+from user.models import Staff, Profile
 
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from store_blog.models import Blog
+from .forms import ContactForm, CheckOutForm,CompletePayMent
 
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-# from .mpesa_credentials import MpesaAccessToken, LipaNaMpesaPassword
+from .mpesa_credentials import MpesaAccessToken, LipaNaMpesaPassword
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
