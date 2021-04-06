@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, reverse
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import  (Manufacture, Item, 
                       OrderItem, Order, 
                       WishListItem, UserWishList,
-                      BillingAddress, Payment, Coupon, Category
+                      BillingAddress, Payment, Coupon, Category, MpesaPayment
                       )
 from user.models import Staff, Profile
 
@@ -218,7 +218,7 @@ def CheckOut(request, *args, **kwargs):
     }
     return render(request, 'checkout.html', context)
 
-def PaymentView(request, *args, **kwargs):
+def MpesaPaymentView(request, *args, **kwargs):
     order = Order.objects.get(user=request.user, is_odered=False)
     amount = order.totalPrice()
     telephone = ""
@@ -241,11 +241,11 @@ def PaymentView(request, *args, **kwargs):
                 "PartyB": "174379",
                 "PhoneNumber": f"{telephone}",
                 "CallBackURL": "https://retechmall.pythonanywhere.com/saf",
-                "AccountReference": "MyHealth",
+                "AccountReference": "Cloth Store",
                 "TransactionDesc": "myhealth test"
             }
             response = requests.post(api_url, json=request, headers=headers)
-            return HttpResponseRedirect('/support/checkout/')
+            return HttpResponseRedirect(reverse("store:checkout"))
                  
         else:
             form = CompletePayMent()
@@ -303,7 +303,7 @@ def confirmation(request):
     mpesa_body = request.body.decode('utf-8')
     mpesa_payment = json.loads(mpesa_body)
     
-    payment = Payment (
+    payment = MpesaPayment (
         first_name = mpesa_payment['FirstName'],
         last_name = mpesa_payment['LastName'],
         middle_name = mpesa_payment['MiddleName'],

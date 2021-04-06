@@ -6,7 +6,7 @@ from .models import (Item,
                      Category,
                      Order, OrderItem,
                      WishListItem, UserWishList,
-                     Coupon,
+                     Coupon, MpesaPayment
                     )
 
 
@@ -47,3 +47,5 @@ class WishListItemAdmin(admin.ModelAdmin):
 admin.site.register(WishListItem, WishListItemAdmin)
 
 admin.site.register(Coupon)
+
+admin.site.register(MpesaPayment)
