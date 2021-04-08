@@ -35,7 +35,7 @@ class Item(models.Model):
     new_price = models.DecimalField(decimal_places=2, max_digits=10,blank=True, null=True)
     pic = models.ImageField(upload_to='images/items', default='images/items/default.png')
     pic_thumbnail = ImageSpecField(source='pic',
-                                   processors = [ResizeToFill(270,270)],
+                                   processors = [ResizeToFill(550,750)],
                                    format='JPEG',
                                    options = {'quality':100})
     main_thumbnail = ImageSpecField(source='pic',
