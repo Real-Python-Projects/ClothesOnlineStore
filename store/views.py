@@ -258,6 +258,10 @@ def MpesaPaymentView(request, *args, **kwargs):
     }
     
     return render(request, 'mpesa_checkout.html', context)
+
+#mpesa transaction simulation
+def simulate_mpesa_trans(request):
+    pass
  
 def getAccessToken(request):
     consumer_key = 'zy4Z7vfCxfdllh62bGoyMK9trPUPGC16'
@@ -276,12 +280,11 @@ def getAccessToken(request):
 def register_urls(request):
     access_token = MpesaAccessToken.validated_mpesa_access_token
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
-    headers = {"Authorization":"Bearer %s" % access_token}
-    options = {"ShortCode": LipaNaMpesaPassword.business_short_code,
-               "ResponseType":"Completed",
-               "ConfirmationUrl":"https://5590a37a7745.ngrok.io/c2b/confirmation",
-               "ValidationUrl": "https://5590a37a7745.ngrok.io/c2b/validation",
-               }
+    headers = {"Authorization": "Bearer %s" % access_token}
+    options = {"ShortCode": LipaNaMpesaPassword.test_c2b_short_code,
+               "ResponseType": "Completed",
+               "ConfirmationURL": "https://1ce8ea8f6c35.ngrok.io/c2b/confirmation/",
+               "ValidationURL": "https://1ce8ea8f6c35.ngrok.io/c2b/validation/"}
     response = requests.post(api_url, json=options, headers=headers)
     return HttpResponse(response.text)
 
